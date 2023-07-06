@@ -1,0 +1,31 @@
+.codeWithGapsContainer{
+    border: 1px solid #000;
+    border-radius: 5px;
+}
+
+.codeContainer{
+  padding: 20px;
+  align-items: start;
+  justify-content: flex-start;
+  text-align: justify;
+  border-right: 1px solid #000;
+  margin-bottom: auto;
+  background-color: #D9D9D9;
+}
+
+.elementsContainer{
+  padding: 20px 0px;
+  background-color: #C8EFFC;
+}
+
+.fillBlankElement{
+    border: 1px solid #000;
+    border-radius: 5px;
+    padding: 5px;
+    margin: auto;
+    margin-bottom: 5px;
+    cursor: move;
+    min-width: 100px;
+    max-width: fit-content;
+    background-color: #D9D9D9;
+}

@@ -1,0 +1,41 @@
+.listPanel {
+  grid-area: listPanel;
+  background-color: white;
+  color: #66347F;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.listView{
+  text-align: center;
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+  min-height: 350px;
+  padding: 20px;
+}
+
+.listContainer {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: start;
+  justify-content: center;
+  width: 9fr;
+  padding: 20px;
+  row-gap: 30px;
+  overflow: auto;
+}
+
+.listStart{
+    width: 100px;
+    height: 100px;
+    background-color: black;
+    color: white;
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+}
+
+
+

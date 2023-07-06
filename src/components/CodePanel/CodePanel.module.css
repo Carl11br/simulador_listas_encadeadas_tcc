@@ -1,0 +1,65 @@
+.codePanel {
+  grid-area: codePanel;
+  gap: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #D9D9D9;
+  /* background: linear-gradient(45deg, #F9F871 0%,#FFC75F 20%,#FF9671 30%, #FF6F91 40%, #D65DB1 50%, #845EC2); */
+  /* background: linear-gradient(45deg, #D27685 0%,#9E4784 25%,#66347F 50%, #37306B 75%); */
+  /* background: linear-gradient(90deg,#66347F, #37306B); */
+  border-right: 3px solid grey ;
+  overflow-y: auto;
+  min-width: 350px;
+}
+
+.container{
+  box-shadow: inset 0px 0px 10px 2px rgba(0, 0, 0, 0.20);
+  box-sizing: border-box;
+  height: 100%;
+  overflow-y: auto;
+  width: 95%;
+  background-color: white;
+}
+
+.container h5{
+  margin: 10px auto;
+}
+
+.container .codebox{
+  font-size: small;
+  height: calc(100% - 80px);
+  text-align: start;
+  width: max-content;
+  padding: 10px;
+  overflow: auto;
+  box-sizing: border-box;
+}
+
+.greenBorder{
+  border: 4px double green;
+}
+
+.blueBorder{
+  border: 4px double blue;
+}
+
+.redBorder{
+  border: 4px double red;
+}
+
+.container ol{
+  text-align: start;
+  white-space: break-spaces;
+}
+
+.container ol li {
+  list-style-type: circle;
+  line-height: 30px;
+  font-weight: 500;
+}
+
+.currentRunning{
+  color: green;
+}

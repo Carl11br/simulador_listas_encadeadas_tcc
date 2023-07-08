@@ -297,12 +297,12 @@ export const buscarPorValorSimples = {
     },
     {
       line: 2,
-      animation: 'searchValue',
+      animation: 'searchValue-nullable',
       description: 'Enquanto não chegar ao fim da lista e enquanto o valor não for encontrado, o ponteiro(*) "aux" será atualizado para apontar para o próximo elemento.',
     },
     {
       line: 3,
-      animation: '',
+      animation: 'showElementFound',
       description: 'Retorna o ponteiro(*) "aux", que pode estar apontando para o elemento encontrado ou para NULL, caso o elemento não tenha sido encontrado.',
     },
 
@@ -336,12 +336,12 @@ export const buscarPorIndiceSimples = {
     },
     {
       line: 3,
-      animation: 'searchIndex-nullable',
+      animation: 'searchIndex-nullable--showElement',
       description: 'Enquanto não chegar ao fim da lista e enquanto o índice não for encontrado, o ponteiro(*) "aux" será atualizado para apontar para o próximo elemento e o indiceAtual será incrementado em uma unidade.',
     },
     {
       line: 4,
-      animation: '',
+      animation: 'showElementFound',
       description: 'Retorna o ponteiro(*) "aux", que pode estar apontando para o elemento encontrado ou para NULL, caso o elemento não tenha sido encontrado.',
     },
 

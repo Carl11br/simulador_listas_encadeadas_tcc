@@ -50,7 +50,6 @@ const ListPanel = ({ className = '', listType = 'simple' }) => {
   const elementRef = useRef(null);
   const updateXarrow = useXarrow();
 
-  //----------------- my new states -----------------
   const [currentAuxIndex, setCurrentAuxIndex] = useState(null);
   const [currentAntIndex, setCurrentAntIndex] = useState(null);
   const [renderNewWorkFlow, setRenderNewWorkFlow] = useState({
@@ -661,6 +660,21 @@ const ListPanel = ({ className = '', listType = 'simple' }) => {
           });
           hasWaited = true;
           break;
+        case 'showElementFound':
+          if (auxToPosition !== null && auxToPosition !== 'nullElement') {
+            alert(
+              'O elemento "' +
+                elementList[auxToPosition].value +
+                '" foi encontrado na posição "' +
+                auxToPosition +
+                '"!'
+            );
+          } else {
+            alert('Não foi possível encontrar o elemento na lista!');
+          }
+          auxToPosition = null;
+          setCurrentAuxIndex(null);
+          break;
         default:
           break;
       }
@@ -945,10 +959,6 @@ const ListPanel = ({ className = '', listType = 'simple' }) => {
   useEffect(() => {
     updateXarrow();
   }, [elementList]);
-
-  useEffect(() => {
-    console.log('updated animation speed');
-  }, [animationSpeed]);
 
   const windowRef = useRef();
 

@@ -9,7 +9,8 @@ export const AppContext = createContext();
 function App() {
   const [currentRunningIndex, setCurrentRunningIndex] = useState(0);
   const [codeToRun, setCodeToRun] = useState([]);
-
+  document.title = "Simulador de Listas Encadeadas"
+  
   return (
     <AppContext.Provider
       value={{

@@ -116,19 +116,21 @@ const ListPanel = ({ className = '', listType = 'simple' }) => {
   };
 
   const removeElement = (indexOrValue, isValue = false) => {
-    const newList = [...elementList];
-    if (isValue) {
-      setElementList(newList.filter((element) => element !== indexOrValue));
-    } else {
+    setElementList((prevState) => {
+      const newList = [...prevState];
+      if (isValue) {
+        return newList.filter((element) => element !== indexOrValue);
+      }
       newList.splice(indexOrValue, 1);
-      setElementList(newList);
-    }
+      return newList;
+    });
   };
 
   const updateReferenceInElement = (indexToUpdate, newReference) => {
     setElementList((prevState) => {
-      prevState[indexToUpdate].pointerFromRef = newReference;
-      return prevState;
+      const newList = [...prevState];
+      newList[indexToUpdate].pointerFromRef = newReference;
+      return newList;
     });
   };
 
@@ -438,8 +440,7 @@ const ListPanel = ({ className = '', listType = 'simple' }) => {
           break;
         case 'pointNewElementToPosition':
           setRenderNewWorkFlow((prevState) => {
-            const newState = { ...prevState };
-            newState.elements.pop();
+            prevState.elements.pop();
             const getArrow = () => {
               if (
                 elementList.length > 0 &&
@@ -447,7 +448,7 @@ const ListPanel = ({ className = '', listType = 'simple' }) => {
               ) {
                 return (
                   <Xarrow
-                    start={newState.elements[1].ref}
+                    start={prevState.elements[1].ref}
                     end={elementList[actionIndex].elementRef}
                     color="black"
                     path="straight"
@@ -459,7 +460,7 @@ const ListPanel = ({ className = '', listType = 'simple' }) => {
               } else {
                 return (
                   <Xarrow
-                    start={newState.elements[1].ref}
+                    start={prevState.elements[1].ref}
                     end={nullSymbolRef}
                     color="black"
                     path="grid"
@@ -474,33 +475,27 @@ const ListPanel = ({ className = '', listType = 'simple' }) => {
                 );
               }
             };
-            newState.arrows[1].render = getArrow();
-            return newState;
+            prevState.arrows[1].render = getArrow();
+            return prevState;
           });
           break;
         case 'pointAntToNewElement':
+          let startReference = startRef;
           if (actionIndex === 0 || elementList.length <= 0) {
             setLinkingNewElementStart(true);
           } else if (actionIndex >= elementList.length) {
+            startReference = elementList[elementList.length - 1].elementRef;
             setLinkingNewElementEnd(true);
           } else {
+            startReference = elementList[actionIndex].pointerFromRef;
             updateReferenceInElement(actionIndex, null);
           }
           setRenderNewWorkFlow((prevState) => {
-            const newState = { ...prevState };
-            let startReference = startRef;
-            if (actionIndex > 0) {
-              if (actionIndex <= elementList.length) {
-                startReference = elementList[actionIndex - 1].elementRef;
-              } else {
-                startReference = elementList[elementList.length - 1].elementRef;
-              }
-            }
             let newArrow = {
               render: (
                 <Xarrow
                   start={startReference}
-                  end={newState.elements[1].ref}
+                  end={prevState.elements[1].ref}
                   color="black"
                   path="straight"
                   startAnchor="bottom"
@@ -509,8 +504,8 @@ const ListPanel = ({ className = '', listType = 'simple' }) => {
                 />
               ),
             };
-            newState.arrows.push(newArrow);
-            return newState;
+            prevState.arrows.push(newArrow);
+            return prevState;
           });
           break;
         case 'pointAuxToPosition':
@@ -645,22 +640,24 @@ const ListPanel = ({ className = '', listType = 'simple' }) => {
           setCurrentAntIndex(null);
           break;
         case 'destroyList':
-          auxToPosition = elementList.length > 0 ? 0 : 'nullElement';
-          await promisedInterval((resolve) => {
+          await promisedInterval(async (resolve) => {
+            let listLength;
+            setElementList((prevState) => {
+              listLength = prevState.length;
+              return prevState;
+            });
+            auxToPosition = listLength >= 2 ? 1 : 'nullElement';
+            setCurrentAuxIndex(auxToPosition);
+            await promisedTimeout(animationSpeed);
             if (auxToPosition === 'nullElement') {
               resolve();
             }
-            auxToPosition =
-              auxToPosition + 1 <= elementList.length - 1
-                ? auxToPosition + 1
-                : 'nullElement';
-            setCurrentAuxIndex(auxToPosition);
-            console.log(auxToPosition);
             removeElement(0);
           });
           hasWaited = true;
           break;
         case 'showElementFound':
+          await promisedTimeout(200);
           if (auxToPosition !== null && auxToPosition !== 'nullElement') {
             alert(
               'O elemento "' +
@@ -864,7 +861,7 @@ const ListPanel = ({ className = '', listType = 'simple' }) => {
               setFunctionType('removeIndex');
               await openModal();
             }
-            if (!actionIndex) {
+            if (elementList.lenght > 0 && !actionIndex) {
               throw new Error('O índice precisa ser informado!');
             }
             setCodeToRun(removerPorIndiceSimples.code);
@@ -955,10 +952,6 @@ const ListPanel = ({ className = '', listType = 'simple' }) => {
     };
     setRenderedList(mountList());
   }, [elementList, listType]);
-
-  useEffect(() => {
-    updateXarrow();
-  }, [elementList]);
 
   const windowRef = useRef();
 
@@ -1053,7 +1046,7 @@ const ListPanel = ({ className = '', listType = 'simple' }) => {
                     {mapIndex == 0 && !linkingNewElementStart && (
                       <Xarrow
                         start={startRef}
-                        end={elementList[0].elementRef}
+                        end={elementList[0] ? elementList[0].elementRef : null}
                         color="black"
                         path="straight"
                         startAnchor="right"
